@@ -7,6 +7,8 @@ from django.utils.translation import gettext as _
 
 from rest_framework import serializers
 
+from transactions.serializers import TransactionListSerializer
+
 
 class AdminSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, style={"input_type": "password"})
@@ -41,12 +43,14 @@ class AdminSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    transactions = TransactionListSerializer(many=True, read_only=True)
 
     class Meta:
         model = get_user_model()
         fields = (
             "id",
             "username",
+            "transactions",
         )
 
     def create(self, validated_data):
