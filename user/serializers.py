@@ -23,13 +23,21 @@ class AdminSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "is_staff",
+            "is_superuser",
         )
-        read_only_fields = ("id", "is_staff",)
+        read_only_fields = ("id", "is_staff", "is_superuser",)
         extra_kwargs = {"password": {"write_only": True, "min_length": 5}}
 
     def create(self, validated_data):
         """Create a new user with encrypted password and return it"""
-        return get_user_model().objects.create_user(**validated_data)
+        user = get_user_model().objects.create_user(
+            **validated_data,
+            is_staff=True,
+            is_superuser=True,
+        )
+        user.set_password(validated_data["password"])
+        user.save()
+        return user
 
     def update(self, instance, validated_data):
         """Update the user, set the password correctly and return it"""
