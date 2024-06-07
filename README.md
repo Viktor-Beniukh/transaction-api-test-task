@@ -20,6 +20,8 @@ python manage.py migrate
 python manage.py runserver   
 ```
 
+You need to create directory `static`
+
 You need to create `.env.prod` file and add there the variables with your according values 
 to run the project into docker (e.g. `.env.prod.sample`):
 - `POSTGRES_DB`: this is databases name;
