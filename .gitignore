@@ -429,3 +429,4 @@ $RECYCLE.BIN/
 /logs/
 /.env.prod
 /static/
+/postgres-data/
